@@ -39,13 +39,13 @@ typedef struct
     Room rooms[NUM_REQUIRED_ROOMS];
 } Graph;
 
-/* Forward-declarations */
-bool isGraphFull(const Graph *g);				// Used to determine if graph is full, rooms have required connections
-void AddRandomConnection(Graph *g);				// Used to add connections between rooms
-Room* GetRandomRoom(Graph *g);					// Used to randomly assign rooms
-bool IsConnected(Room *from, Room *to);			// Used to determine if a connection exists between rooms
-bool CanAddConnectionFrom(const Room *r);		// Used to determine if a valid connection can be made 
-void ConnectRoom(Room *a, const Room* b);		// Used to create a connection between two rooms
+/* Forward-declarations */  
+bool isGraphFull(const Graph *g);				        // Used to determine if graph is full, rooms have required connections
+void AddRandomConnection(Graph *g);				      // Used to add connections between rooms
+Room* GetRandomRoom(Graph *g);					        // Used to randomly assign rooms
+bool IsConnected(Room *from, Room *to);			    // Used to determine if a connection exists between rooms
+bool CanAddConnectionFrom(const Room *r);		    // Used to determine if a valid connection can be made 
+void ConnectRoom(Room *a, const Room* b);		    // Used to create a connection between two rooms
 bool IsSameRoom(const Room *a, const Room *b);	// Determine if rooms pointed to by a and b are same
 
 /* Main entry point */
@@ -117,7 +117,7 @@ int main(int argc, char** argv)
     {
         start = GetRandomRoom(&graph);
         end = GetRandomRoom(&graph);
-    } while (IsSameRoom(start, end));		// Since the start and end point need to be different
+    } while (IsSameRoom(start, end));		    // Since the start and end point need to be different
 
     start->roomType = START_ROOM;
     end->roomType = END_ROOM;
@@ -151,7 +151,7 @@ int main(int argc, char** argv)
         int len = strlen(graph.rooms[i].name);
         char *nameBuffer = (char*)calloc(len + 6, sizeof(char));
         strcat(nameBuffer, graph.rooms[i].name);
-        strcat(nameBuffer, "_room");			// I chose to append _room to each room name to use as a file name
+        strcat(nameBuffer, "_room");			          // I chose to append _room to each room name to use as a file name
         FILE* theFile = fopen(nameBuffer, "w");
         if(theFile != NULL)
         {
@@ -170,7 +170,7 @@ int main(int argc, char** argv)
             {
                 fputs("ROOM TYPE: START_ROOM\n", theFile);
             }
-            else if(graph.rooms[i].roomType == MID_ROOM) // So for example, if my room type is a mid room it needs to be labeled as such in the file directory
+            else if(graph.rooms[i].roomType == MID_ROOM)    //So for example, if my room type is a mid room it needs to be labeled as such in the file directory
             {
                 fputs("ROOM TYPE: MID_ROOM\n", theFile);
             }
@@ -235,7 +235,7 @@ void AddRandomConnection(Graph* graph)
         b = GetRandomRoom(graph);
     } while(!CanAddConnectionFrom(b) || IsSameRoom(a, b) || IsConnected(a, b));
 
-    ConnectRoom(a, b);		// If rooms aren't the same or already connected, make connections
+    ConnectRoom(a, b);		          // If rooms aren't the same or already connected, make connections
     ConnectRoom(b, a);
 }
 
