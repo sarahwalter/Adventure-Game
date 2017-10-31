@@ -53,9 +53,9 @@ typedef struct
 Room *GetRoomFromName(Graph *g, char *name);		// Get room in graph with specified name
 void InitializeGraph(Graph *g, char *directory);	// Use directory to initialize graph
 void InitializeRoom(Room *r, char *filename);		// Initialize room with contents of its file
-char *GetPossibleConnections(Room *r);				// Returns string containing all possible connections to r
-Room *GetStartRoom(Graph *g);						// Gets pointer to start room of graph
-Room *GetEndRoom(Graph *g);							// Gets pointer to end room of graph
+char *GetPossibleConnections(Room *r);			// Returns string containing all possible connections to r
+Room *GetStartRoom(Graph *g);				// Gets pointer to start room of graph
+Room *GetEndRoom(Graph *g);				// Gets pointer to end room of graph
 
 /*
  * To be executed by the time thread. timeFile is a pointer to a FILE* that
@@ -66,13 +66,13 @@ void *WriteTime(void *timeFile)
 {
     while(1)
     {
-        pthread_mutex_lock(&timeMutex);								// Lock the mutex object 					
+        pthread_mutex_lock(&timeMutex);					// Lock the mutex object 					
         while(doTime == false && gameDone == false)
         {
-            pthread_cond_wait(&condition, &timeMutex);				// Release mutex until condition complete and mutex available
+            pthread_cond_wait(&condition, &timeMutex);			// Release mutex until condition complete and mutex available
         }
 
-        if(gameDone)												// Break when we finish playing
+        if(gameDone)							// Break when we finish playing
         {
             break;
         }
@@ -83,14 +83,14 @@ void *WriteTime(void *timeFile)
         struct tm *timeinfo =  localtime(&theTime);
 
         char buffer[80];
-        strftime(buffer, 80, "%I:%M%P, %A, %B %e, %G\n", timeinfo); 	// Format the time and date
-        file = fopen("currentTime.txt", "w");							// File handling
-        fputs(buffer, file);											// Writes the character array to the file
+        strftime(buffer, 80, "%I:%M%P, %A, %B %e, %G\n", timeinfo); 		// Format the time and date
+        file = fopen("currentTime.txt", "w");					// File handling
+        fputs(buffer, file);							// Writes the character array to the file
         fclose(file);
 
         doTime = false;
         timeDone = true;
-        pthread_mutex_unlock(&timeMutex);								// Release the mutex object
+        pthread_mutex_unlock(&timeMutex);					// Release the mutex object
         pthread_cond_signal(&condition);
     }
     pthread_exit(0);
@@ -109,7 +109,7 @@ int main(int argc, char** argv)
     time_t latestTime;
     memset(&latestTime, 0, sizeof(time_t));
     struct stat st;
-    char *searchStr = "waltsara.rooms.";					// Search for directory with matching substring waltsara.rooms
+    char *searchStr = "waltsara.rooms.";			// Search for directory with matching substring waltsara.rooms
 
     /* Check all directory entries that match the search string */
     while((curEntry = readdir(dp)) != NULL)
@@ -297,7 +297,7 @@ void InitializeGraph(Graph *graph, char *directory)
             if(S_ISREG(st.st_mode))
             {
                 InitializeRoom(&graph->rooms[curRoom], curEntry->d_name); 	// Initialize the room
-                curRoom++;													// Then iterate through
+                curRoom++;							// Then iterate through
             }
 
         }
